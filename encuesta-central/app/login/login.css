@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lora:wght@400;500&display=swap');
+
+.login-page {
+    min-height: 100vh;
+    background: #f4efe6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lora', Georgia, serif;
+    padding: 2rem;
+}
+
+.login-logo {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 28px;
+    font-weight: 300;
+    font-style: italic;
+    color: #1c1a17;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.01em;
+}
+
+.login-logo span {
+    color: #b8845a;
+}
+
+.login-card {
+    background: #faf7f2;
+    border: 1px solid rgba(184,132,90,0.2);
+    border-radius: 10px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.login-card h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: italic;
+    color: #1c1a17;
+    margin: 0;
+}
+
+.login-card p {
+    font-size: 13px;
+    color: #7a6f63;
+    margin: 0;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Lora', Georgia, serif;
+    background: white;
+    border: 1px solid rgba(184,132,90,0.35);
+    border-radius: 8px;
+    color: #1c1a17;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.login-input:focus {
+    border-color: rgba(184,132,90,0.7);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background: #b8845a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Lora', Georgia, serif;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-primary:hover {
+    background: #a87650;
+}
+
+.btn-ghost {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    color: #b8845a;
+    border: 1px solid #b8845a;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Lora', Georgia, serif;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-ghost:hover {
+    background: rgba(184,132,90,0.08);
+}
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #7a6f63;
+    font-size: 12px;
+}
+
+.login-divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(184,132,90,0.2);
+}
+
+.login-confirmation {
+    background: rgba(184,132,90,0.08);
+    border: 1px solid rgba(184,132,90,0.25);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 13px;
+    color: #5c4f40;
+}

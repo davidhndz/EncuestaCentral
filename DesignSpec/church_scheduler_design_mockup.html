@@ -1,0 +1,420 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lora:wght@400;500&display=swap');
+
+  .pg-wrap {
+    background: #f4efe6;
+    min-height: 100vh;
+    padding: 0;
+    font-family: 'Lora', serif;
+    color: #1c1a17;
+    position: relative;
+  }
+  .pg-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+  .pg-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 0 2rem; }
+
+  /* Nav */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(184,132,90,0.18);
+    background: rgba(250,247,242,0.85);
+    backdrop-filter: blur(4px);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300; font-style: italic;
+    color: #1c1a17; letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: #b8845a; }
+  .nav-meta { font-size: 13px; color: #7a6f63; }
+
+  /* Page header */
+  .page-head {
+    padding: 2rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(184,132,90,0.12);
+  }
+  .page-head h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px; font-weight: 300; font-style: italic;
+    margin: 0 0 4px; color: #1c1a17;
+  }
+  .page-head p { font-size: 14px; color: #7a6f63; margin: 0; }
+
+  /* Month nav */
+  .month-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.5rem 0.5rem;
+  }
+  .month-nav h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400; margin: 0; color: #1c1a17;
+  }
+  .month-btn {
+    background: none; border: 1px solid rgba(184,132,90,0.3);
+    border-radius: 8px; padding: 4px 10px; cursor: pointer;
+    color: #b8845a; font-size: 16px;
+  }
+
+  /* Preset checklist */
+  .preset-section {
+    margin: 1rem 1.5rem;
+    background: #faf7f2;
+    border: 1px solid rgba(184,132,90,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .preset-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(184,132,90,0.15);
+    cursor: pointer;
+  }
+  .preset-header span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-weight: 400; font-style: italic; color: #5c4f40;
+  }
+  .preset-header small { font-size: 12px; color: #b8845a; }
+  .preset-list { padding: 0.25rem 0; }
+  .preset-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid rgba(184,132,90,0.08);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .preset-row:last-child { border-bottom: none; }
+  .preset-row:hover { background: rgba(184,132,90,0.06); }
+  .preset-cb {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 1.5px solid rgba(184,132,90,0.45);
+    background: white; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .preset-cb.checked { background: #b8845a; border-color: #b8845a; }
+  .preset-cb.checked::after { content: '✓'; color: white; font-size: 11px; font-weight: 600; }
+  .preset-label { flex: 1; }
+  .preset-label .day { font-size: 14px; font-weight: 500; color: #1c1a17; }
+  .preset-label .time { font-size: 12px; color: #7a6f63; }
+  .preset-spots { font-size: 12px; color: #b8845a; white-space: nowrap; }
+
+  /* Calendar grid */
+  .cal-wrap { padding: 0.5rem 1.5rem 1rem; }
+  .cal-days-header {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 4px;
+  }
+  .cal-day-name {
+    text-align: center; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: #b8845a; padding: 4px 0;
+  }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .cal-cell {
+    aspect-ratio: 1;
+    background: #faf7f2;
+    border: 1px solid rgba(184,132,90,0.1);
+    border-radius: 8px;
+    padding: 4px;
+    display: flex; flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.15s;
+    min-height: 52px;
+  }
+  .cal-cell:hover { background: rgba(184,132,90,0.08); }
+  .cal-cell.empty { background: transparent; border-color: transparent; cursor: default; }
+  .cal-cell.today .day-num {
+    background: #b8845a; color: white;
+    border-radius: 50%; width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cal-cell.has-signup { background: rgba(184,132,90,0.07); }
+  .day-num { font-size: 13px; color: #1c1a17; margin-bottom: 2px; line-height: 1; }
+  .cal-cell.other-month .day-num { color: #c5bdb3; }
+  .dot-row { display: flex; gap: 2px; flex-wrap: wrap; justify-content: center; }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #b8845a; flex-shrink: 0;
+  }
+  .dot.preset { background: #b8845a; }
+  .dot.manual { background: #7a6f63; }
+  .chip {
+    font-size: 9px; color: #b8845a;
+    background: rgba(184,132,90,0.15);
+    border-radius: 3px; padding: 1px 3px;
+    white-space: nowrap; max-width: 100%;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* Bottom sheet overlay */
+  .sheet-overlay {
+    position: fixed; inset: 0;
+    background: rgba(28,26,23,0.4);
+    display: flex; align-items: flex-end;
+    z-index: 100;
+  }
+  .sheet {
+    background: #faf7f2;
+    border-radius: 16px 16px 0 0;
+    padding: 1.25rem 1.5rem 2rem;
+    width: 100%; max-height: 70vh;
+    border-top: 1px solid rgba(184,132,90,0.2);
+  }
+  .sheet-handle {
+    width: 36px; height: 4px; background: rgba(184,132,90,0.3);
+    border-radius: 2px; margin: 0 auto 1rem;
+  }
+  .sheet-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 300; font-style: italic;
+    margin: 0 0 1rem; color: #1c1a17;
+  }
+  .slot-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(184,132,90,0.12);
+  }
+  .slot-row:last-child { border-bottom: none; }
+  .slot-info .slot-time { font-size: 15px; font-weight: 500; color: #1c1a17; }
+  .slot-info .slot-loc { font-size: 12px; color: #7a6f63; margin-top: 2px; }
+  .slot-info .slot-count { font-size: 12px; color: #b8845a; margin-top: 2px; }
+  .slot-btn {
+    border: 1px solid #b8845a; border-radius: 8px;
+    padding: 6px 14px; font-size: 13px; cursor: pointer;
+    font-family: 'Lora', serif; transition: all 0.15s;
+  }
+  .slot-btn.signup { background: #b8845a; color: white; border-color: #b8845a; }
+  .slot-btn.cancel { background: transparent; color: #b8845a; }
+
+  /* My signups summary */
+  .summary-card {
+    margin: 0 1.5rem 1rem;
+    background: #faf7f2;
+    border: 1px solid rgba(184,132,90,0.2);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+  }
+  .summary-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px; font-style: italic; color: #7a6f63;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .summary-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .summary-pill {
+    background: rgba(184,132,90,0.12);
+    border: 1px solid rgba(184,132,90,0.25);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 12px; color: #5c4f40;
+  }
+</style>
+
+<div class="pg-wrap">
+  <div class="pg-inner">
+
+    <nav class="nav">
+      <div class="nav-logo">Parish <span>&</span> Schedule</div>
+      <div class="nav-meta">Maria G. &nbsp;·&nbsp; June 2026</div>
+    </nav>
+
+    <div class="page-head">
+      <h1>Sign-up for July</h1>
+      <p>Signup window open · closes June 28th</p>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-label">Your signups this month</div>
+      <div class="summary-pills">
+        <div class="summary-pill">Mon 6–8am · ×4</div>
+        <div class="summary-pill">Sat 6:30–8:30am · ×3</div>
+        <div class="summary-pill">Wed Jul 9 · 5–8pm</div>
+      </div>
+    </div>
+
+    <div class="month-nav">
+      <button class="month-btn">‹</button>
+      <h2>July 2026</h2>
+      <button class="month-btn">›</button>
+    </div>
+
+    <div class="preset-section">
+      <div class="preset-header" onclick="togglePresets()">
+        <span>Quick select recurring slots</span>
+        <small id="preset-toggle-label">▲ collapse</small>
+      </div>
+      <div class="preset-list" id="preset-list">
+        <div class="preset-row" onclick="togglePreset(this, 'mon-am')">
+          <div class="preset-cb checked" id="cb-mon-am"></div>
+          <div class="preset-label">
+            <div class="day">Monday morning</div>
+            <div class="time">6:00 am – 8:00 am</div>
+          </div>
+          <div class="preset-spots">4 of 5 spots left</div>
+        </div>
+        <div class="preset-row" onclick="togglePreset(this, 'mon-pm')">
+          <div class="preset-cb" id="cb-mon-pm"></div>
+          <div class="preset-label">
+            <div class="day">Monday evening</div>
+            <div class="time">5:00 pm – 8:00 pm</div>
+          </div>
+          <div class="preset-spots">2 of 5 spots left</div>
+        </div>
+        <div class="preset-row" onclick="togglePreset(this, 'wed-am')">
+          <div class="preset-cb" id="cb-wed-am"></div>
+          <div class="preset-label">
+            <div class="day">Wednesday morning</div>
+            <div class="time">6:30 am – 8:30 am</div>
+          </div>
+          <div class="preset-spots">5 of 5 spots left</div>
+        </div>
+        <div class="preset-row" onclick="togglePreset(this, 'sat-am')">
+          <div class="preset-cb checked" id="cb-sat-am"></div>
+          <div class="preset-label">
+            <div class="day">Saturday morning</div>
+            <div class="time">6:30 am – 8:30 am</div>
+          </div>
+          <div class="preset-spots">3 of 5 spots left</div>
+        </div>
+        <div class="preset-row" onclick="togglePreset(this, 'sun-am')">
+          <div class="preset-cb" id="cb-sun-am"></div>
+          <div class="preset-label">
+            <div class="day">Sunday morning</div>
+            <div class="time">6:30 am – 8:30 am</div>
+          </div>
+          <div class="preset-spots">1 of 5 spots left</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-wrap">
+      <div class="cal-days-header">
+        <div class="cal-day-name">Su</div>
+        <div class="cal-day-name">Mo</div>
+        <div class="cal-day-name">Tu</div>
+        <div class="cal-day-name">We</div>
+        <div class="cal-day-name">Th</div>
+        <div class="cal-day-name">Fr</div>
+        <div class="cal-day-name">Sa</div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sheet-overlay" id="sheet-overlay" style="display:none" onclick="closeSheet(event)">
+  <div class="sheet" id="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="sheet-date-title">Tuesday, July 1</div>
+    <div id="sheet-slots"></div>
+  </div>
+</div>
+
+<script>
+const presetState = { 'mon-am': true, 'mon-pm': false, 'wed-am': false, 'sat-am': true, 'sun-am': false };
+
+const july2026 = [
+  { day: null }, { day: null }, { day: null },
+  { day: 1, slots: [{time:'5–8pm', loc:'Main Hall', count:'3/5'}] },
+  { day: 2 }, { day: 3 },
+  { day: 4, preset: 'sat-am', slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'2/5'}] },
+  { day: 5, preset: 'sun-am', slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'4/5'}] },
+  { day: 6, preset: 'mon-am', slots: [{time:'6–8am', loc:'Front Steps', count:'1/5'}, {time:'5–8pm', loc:'Main Hall', count:'2/5'}] },
+  { day: 7 },
+  { day: 8, slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'3/5'}, {time:'5–8pm', loc:'Main Hall', count:'2/5'}] },
+  { day: 9 }, { day: 10 },
+  { day: 11, preset: 'sat-am', slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'3/5'}] },
+  { day: 12, preset: 'sun-am' }, { day: 13, preset: 'mon-am' },
+  { day: 14 }, { day: 15 },
+  { day: 16, slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'1/5'}] },
+  { day: 17 },
+  { day: 18, preset: 'sat-am', slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'3/5'}] },
+  { day: 19, preset: 'sun-am' }, { day: 20, preset: 'mon-am' },
+  { day: 21 }, { day: 22 },
+  { day: 23, slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'2/5'}] },
+  { day: 24 },
+  { day: 25, preset: 'sat-am', slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'3/5'}] },
+  { day: 26, preset: 'sun-am' }, { day: 27, preset: 'mon-am' },
+  { day: 28 }, { day: 29 },
+  { day: 30, slots: [{time:'6:30–8:30am', loc:'Front Steps', count:'2/5'}] },
+  { day: 31 }
+];
+
+function renderCal() {
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+  july2026.forEach(cell => {
+    const div = document.createElement('div');
+    if (!cell.day) { div.className = 'cal-cell empty'; grid.appendChild(div); return; }
+    div.className = 'cal-cell' + (cell.preset && presetState[cell.preset] ? ' has-signup' : '') + (cell.day === 4 ? ' today' : '');
+    const numDiv = document.createElement('div');
+    numDiv.className = 'day-num'; numDiv.textContent = cell.day;
+    div.appendChild(numDiv);
+    if (cell.preset && presetState[cell.preset] || cell.slots) {
+      const dotRow = document.createElement('div');
+      dotRow.className = 'dot-row';
+      if (cell.preset && presetState[cell.preset]) {
+        const d = document.createElement('div'); d.className = 'dot preset'; dotRow.appendChild(d);
+      }
+      if (cell.slots) {
+        const c = document.createElement('div'); c.className = 'chip';
+        c.textContent = cell.slots[0].time; dotRow.appendChild(c);
+      }
+      div.appendChild(dotRow);
+    }
+    if (cell.slots) {
+      div.onclick = () => openSheet(cell);
+    }
+    grid.appendChild(div);
+  });
+}
+
+function openSheet(cell) {
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('sheet-date-title').textContent = 'July ' + cell.day + ', 2026';
+  const slotsDiv = document.getElementById('sheet-slots');
+  slotsDiv.innerHTML = '';
+  (cell.slots || []).forEach(s => {
+    const row = document.createElement('div'); row.className = 'slot-row';
+    const info = document.createElement('div'); info.className = 'slot-info';
+    info.innerHTML = '<div class="slot-time">' + s.time + '</div><div class="slot-loc">' + s.loc + '</div><div class="slot-count">' + s.count + ' volunteers</div>';
+    const btn = document.createElement('button');
+    btn.className = 'slot-btn signup'; btn.textContent = 'Sign up';
+    row.appendChild(info); row.appendChild(btn);
+    slotsDiv.appendChild(row);
+  });
+  document.getElementById('sheet-overlay').style.display = 'flex';
+}
+
+function closeSheet(e) {
+  if (e.target === document.getElementById('sheet-overlay')) {
+    document.getElementById('sheet-overlay').style.display = 'none';
+  }
+}
+
+function togglePresets() {
+  const list = document.getElementById('preset-list');
+  const label = document.getElementById('preset-toggle-label');
+  if (list.style.display === 'none') { list.style.display = ''; label.textContent = '▲ collapse'; }
+  else { list.style.display = 'none'; label.textContent = '▼ expand'; }
+}
+
+function togglePreset(row, key) {
+  presetState[key] = !presetState[key];
+  const cb = document.getElementById('cb-' + key);
+  cb.className = 'preset-cb' + (presetState[key] ? ' checked' : '');
+  renderCal();
+}
+
+renderCal();
+</script>

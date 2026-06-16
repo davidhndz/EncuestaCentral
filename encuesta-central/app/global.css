@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Lora:wght@400;500&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────────── */
+:root {
+  --color-bg:             #f4efe6;
+  --color-surface:        #faf7f2;
+  --color-text:           #1c1a17;
+  --color-text-muted:     #7a6f63;
+  --color-text-light:     #5c4f40;
+  --color-amber:          #b8845a;
+  --color-amber-wash:     rgba(184,132,90,0.08);
+  --color-amber-tint:     rgba(184,132,90,0.14);
+  --color-border:         rgba(184,132,90,0.20);
+  --color-border-subtle:  rgba(184,132,90,0.11);
+}
+
+/* ─── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Base ──────────────────────────────────────────────────── */
+html, body {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Grain texture ─────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Typography ────────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  color: var(--color-text);
+}
+
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+
+p {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+.btn-primary {
+  padding: 8px 16px;
+  background: var(--color-amber);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Lora', Georgia, serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-height: 48px;
+}
+
+.btn-primary:hover {
+  background: #a87650;
+}
+
+.btn-ghost {
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--color-amber);
+  border: 1px solid var(--color-amber);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Lora', Georgia, serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-height: 48px;
+}
+
+.btn-ghost:hover {
+  background: var(--color-amber-wash);
+}
+
+/* ─── Card / Surface ────────────────────────────────────────── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+/* ─── Nav ───────────────────────────────────────────────────── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: rgba(250,247,242,0.92);
+  border-bottom: 1px solid rgba(184,132,90,0.18);
+  backdrop-filter: blur(4px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--color-text);
+  letter-spacing: 0.01em;
+}
+
+.nav-logo span {
+  color: var(--color-amber);
+}
+
+.nav-meta {
+  font-size: 16px;
+  color: var(--color-text-muted);
+}
+
+/* ─── Calendar Header  ─────────────────────────────────────────── */
+.page-head {
+  padding: 1.25rem 1.25rem 0.8rem;
+  border-bottom: 1px solid rgba(184, 132, 90, 0.12);
+}
+
+.page-head h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: #1c1a17;
+  margin-bottom: 4px;
+}
+
+.page-head p {
+  font-size: 13px;
+  color: #7a6f63;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+/* ─── Form elements ─────────────────────────────────────────── */
+input, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: 'Lora', Georgia, serif;
+  background: white;
+  border: 1px solid rgba(184,132,90,0.35);
+  border-radius: 8px;
+  color: var(--color-text);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+input:focus, textarea:focus {
+  border-color: rgba(184,132,90,0.7);
+}
+
+/* ─── Divider ───────────────────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ─── Utility ───────────────────────────────────────────────── */
+.text-muted   { color: var(--color-text-muted); }
+.text-light   { color: var(--color-text-light); }
+.text-amber   { color: var(--color-amber); }
+.surface      { background: var(--color-surface); }
